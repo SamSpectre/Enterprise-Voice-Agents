@@ -8,6 +8,13 @@ wheels/
 
 # Virtual environments
 .venv
+ep-voice-agents/
+
+# Environment
+.env
+
+# Data (local conversation storage)
+data/
 
 # AI-assisted coding
 CLAUDE.md
