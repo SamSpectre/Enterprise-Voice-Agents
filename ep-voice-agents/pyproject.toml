@@ -1,0 +1,12 @@
+[project]
+name = "ep-voice-agents"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "elevenlabs[pyaudio]>=2.41.0",
+    "fastapi>=0.135.3",
+    "python-dotenv>=1.2.2",
+    "uvicorn>=0.43.0",
+]
