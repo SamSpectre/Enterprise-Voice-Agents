@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+
+# AI-assisted coding
+CLAUDE.md
+ROADMAP.md
+LESSONS_LEARNED.md
+MILESTONES.md
+.claude/
