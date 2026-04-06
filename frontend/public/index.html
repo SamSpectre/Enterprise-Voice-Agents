@@ -12,6 +12,7 @@
 
         :root {
             --gold: #FFCC00;
+            --gold-dim: rgba(255, 204, 0, 0.10);
             --bg: #0b0b0f;
             --text-primary: #f5f5f7;
             --text-secondary: #8a8a8e;
@@ -33,6 +34,7 @@
             min-height: 100vh;
         }
 
+        /* ── Header ── */
         header {
             display: flex;
             align-items: center;
@@ -70,6 +72,7 @@
             font-weight: 400;
         }
 
+        /* ── Main ── */
         main {
             flex: 1;
             display: flex;
@@ -92,8 +95,100 @@
             color: var(--text-secondary);
             line-height: 1.6;
             max-width: 420px;
+            margin-bottom: 2rem;
         }
 
+        /* ── Name form ── */
+        #name-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        #name-form input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #name-form input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        #name-form input:focus {
+            border-color: rgba(255, 204, 0, 0.4);
+        }
+
+        #name-form button {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--gold);
+            color: #0b0b0f;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        #name-form button:hover {
+            opacity: 0.9;
+        }
+
+        /* ── Active state after form submit ── */
+        .active-hint {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .active-hint.visible {
+            display: flex;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .active-hint p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── Footer ── */
         footer {
             display: flex;
             align-items: center;
@@ -136,8 +231,21 @@
     <h1>Speak with Alex</h1>
     <p class="subtitle">
         Our AI interviewer will guide you through a brief
-        pre-screening for engineering roles.
+        pre-screening for engineering roles. Enter your name to begin.
     </p>
+
+    <form id="name-form">
+        <input type="text" id="candidate-name" placeholder="Your name" required autofocus>
+        <button type="submit">Start Interview</button>
+    </form>
+
+    <div class="active-hint" id="active-hint">
+        <div class="status">
+            <div class="status-dot"></div>
+            <span class="status-text">Agent online</span>
+        </div>
+        <p>Click the orb in the bottom-right to speak.</p>
+    </div>
 </main>
 
 <footer>
@@ -146,12 +254,29 @@
     <span>Stuttgart, Germany</span>
 </footer>
 
-<!-- Widget renders in its own layer, no CSS overrides -->
-<elevenlabs-convai
-    agent-id="agent_8701kncm94jgfzzv8k8x792qr7jj"
-    avatar-orb-color-1="#FFCC00"
-    avatar-orb-color-2="#D4A000"
-></elevenlabs-convai>
+<script>
+    document.getElementById('name-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var name = document.getElementById('candidate-name').value.trim();
+        if (!name) return;
+
+        // Hide form, show hint
+        this.style.display = 'none';
+        document.getElementById('active-hint').classList.add('visible');
+
+        // Create widget with dynamic variables
+        var widget = document.createElement('elevenlabs-convai');
+        widget.setAttribute('agent-id', 'agent_8701kncm94jgfzzv8k8x792qr7jj');
+        widget.setAttribute('avatar-orb-color-1', '#FFCC00');
+        widget.setAttribute('avatar-orb-color-2', '#D4A000');
+        widget.setAttribute('dynamic-variables', JSON.stringify({
+            candidate_name: name,
+            company_name: 'EP Group'
+        }));
+        document.body.appendChild(widget);
+    });
+</script>
 <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
 </body>
