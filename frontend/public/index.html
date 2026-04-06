@@ -4,168 +4,258 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EP Group — AI Voice Interview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #FFCC00;
+            --gold-dim: rgba(255, 204, 0, 0.12);
+            --gold-subtle: rgba(255, 204, 0, 0.06);
+            --bg: #0b0b0f;
+            --surface: #141418;
+            --border: rgba(255, 255, 255, 0.06);
+            --text-primary: #f5f5f7;
+            --text-secondary: #8a8a8e;
+            --text-tertiary: #4a4a4e;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0f;
-            color: #e0e0e0;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
-        /* Subtle gradient background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 600px;
-            padding: 2rem;
-        }
-
-        .logo {
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: #6b7280;
-            margin-bottom: 1.5rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #9ca3af;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-        }
-
-        .instructions {
+        /* ── Header ── */
+        header {
             display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 3rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .step {
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .brand-mark {
+            width: 28px;
+            height: 28px;
+            background: var(--gold);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: #0b0b0f;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .brand-name span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .header-badge {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gold);
+            background: var(--gold-dim);
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            letter-spacing: 0.03em;
+        }
+
+        /* ── Main content ── */
+        main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
         }
 
-        .step-number {
-            width: 32px;
-            height: 32px;
+        /* Ambient glow behind the widget */
+        .glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--gold-subtle) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 440px;
+        }
+
+        /* ── Widget container ── */
+        .widget-area {
+            margin-top: 1rem;
+            width: 380px;
+            max-width: 90vw;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── Status indicator ── */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: #22c55e;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .status-text {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.02em;
+        }
+
+        /* ── Footer ── */
+        footer {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #3b82f6;
+            gap: 1.5rem;
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border);
         }
 
-        .step-text {
-            font-size: 0.85rem;
-            color: #6b7280;
+        footer span {
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.02em;
         }
 
-        .widget-hint {
-            font-size: 0.85rem;
-            color: #4b5563;
-            margin-top: 2rem;
+        footer .sep {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--text-tertiary);
+            opacity: 0.5;
         }
 
-        .widget-hint .arrow {
-            display: inline-block;
-            animation: bounce 2s infinite;
-            font-size: 1.2rem;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(6px); }
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 1.5rem;
-            font-size: 0.75rem;
-            color: #374151;
-            z-index: 1;
-        }
-
+        /* ── Mobile ── */
         @media (max-width: 640px) {
-            h1 { font-size: 1.8rem; }
-            .instructions { flex-direction: column; gap: 1rem; }
+            header { padding: 1rem 1.25rem; }
+            h1 { font-size: 1.5rem; }
+            .subtitle { font-size: 0.85rem; }
+            .widget-area { width: 320px; }
+            .glow { width: 350px; height: 350px; }
+        }
+
+        /* ── Overrides for ElevenLabs widget in page flow ── */
+        elevenlabs-convai {
+            position: relative !important;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="logo">EP Group</div>
-    <h1>AI Voice Interview</h1>
-    <p class="subtitle">
-        Experience our AI-powered pre-screening interview.
-        Click the microphone button to start a conversation with Alex,
-        our AI interviewer.
-    </p>
+<header>
+    <div class="brand">
+        <div class="brand-mark">ep</div>
+        <div class="brand-name">EP Group <span>Engineering People</span></div>
+    </div>
+    <div class="header-badge">AI Interview</div>
+</header>
 
-    <div class="instructions">
-        <div class="step">
-            <div class="step-number">1</div>
-            <span class="step-text">Click the mic</span>
+<main>
+    <div class="glow"></div>
+    <div class="content">
+        <h1>Speak with Alex</h1>
+        <p class="subtitle">
+            Our AI interviewer will guide you through a brief
+            pre-screening for engineering roles. Click below to begin.
+        </p>
+
+        <div class="widget-area">
+            <elevenlabs-convai
+                agent-id="agent_8701kncm94jgfzzv8k8x792qr7jj"
+                avatar-orb-color-1="#FFCC00"
+                avatar-orb-color-2="#D4A000"
+            ></elevenlabs-convai>
         </div>
-        <div class="step">
-            <div class="step-number">2</div>
-            <span class="step-text">Allow microphone</span>
-        </div>
-        <div class="step">
-            <div class="step-number">3</div>
-            <span class="step-text">Start talking</span>
+
+        <div class="status">
+            <div class="status-dot"></div>
+            <span class="status-text">Agent online</span>
         </div>
     </div>
+</main>
 
-    <p class="widget-hint">
-        <span class="arrow">&#8595;</span> Click the button in the bottom-right corner
-    </p>
-</div>
+<footer>
+    <span>Engineering People GmbH</span>
+    <div class="sep"></div>
+    <span>Stuttgart, Germany</span>
+    <div class="sep"></div>
+    <span>Powered by ElevenLabs</span>
+</footer>
 
-<div class="footer">Powered by EP Group Engineering People GmbH</div>
-
-<!-- ElevenLabs Conversational AI Widget -->
-<elevenlabs-convai agent-id="agent_8701kncm94jgfzzv8k8x792qr7jj"></elevenlabs-convai>
 <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
 </body>
