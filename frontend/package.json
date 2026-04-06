@@ -1,0 +1,9 @@
+{
+  "name": "ep-voice-agents-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve public -l 3000",
+    "build": "echo 'Static site — no build needed'"
+  }
+}
