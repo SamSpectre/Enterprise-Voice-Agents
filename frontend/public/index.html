@@ -108,25 +108,54 @@
         }
 
         #name-form input:focus {
-            border-color: rgba(255, 204, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.18);
         }
 
         #name-form button {
+            position: relative;
             width: 100%;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            border: none;
-            background: var(--gold);
-            color: #0b0b0f;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
             font-family: inherit;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 500;
+            letter-spacing: 0.01em;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        #name-form button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
         }
 
         #name-form button:hover {
-            opacity: 0.9;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        #name-form button:active {
+            transform: translateY(0);
+        }
+
+        #name-form button .btn-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
         }
 
         /* ── Active state after form submit ── */
@@ -217,7 +246,10 @@
 
     <form id="name-form">
         <input type="text" id="candidate-name" placeholder="Your name" required autofocus>
-        <button type="submit">Start Interview</button>
+        <button type="submit">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+            Begin Conversation
+        </button>
     </form>
 
     <div class="active-hint" id="active-hint">
