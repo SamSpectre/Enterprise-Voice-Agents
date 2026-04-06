@@ -12,14 +12,11 @@
 
         :root {
             --gold: #FFCC00;
-            --gold-dim: rgba(255, 204, 0, 0.12);
-            --gold-subtle: rgba(255, 204, 0, 0.06);
             --bg: #0b0b0f;
-            --surface: #141418;
-            --border: rgba(255, 255, 255, 0.06);
             --text-primary: #f5f5f7;
             --text-secondary: #8a8a8e;
             --text-tertiary: #4a4a4e;
+            --border: rgba(255, 255, 255, 0.06);
         }
 
         html, body {
@@ -28,21 +25,17 @@
             background: var(--bg);
             color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
-            overflow: hidden;
         }
 
-        /* ── Header ── */
         header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             padding: 1.25rem 2rem;
             border-bottom: 1px solid var(--border);
         }
@@ -64,14 +57,12 @@
             font-weight: 700;
             font-size: 0.7rem;
             color: #0b0b0f;
-            letter-spacing: -0.02em;
         }
 
         .brand-name {
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: -0.01em;
         }
 
         .brand-name span {
@@ -79,102 +70,30 @@
             font-weight: 400;
         }
 
-        .header-badge {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--gold);
-            background: var(--gold-dim);
-            padding: 0.3rem 0.75rem;
-            border-radius: 100px;
-            border: 1px solid rgba(255, 204, 0, 0.15);
-            letter-spacing: 0.03em;
-        }
-
-        /* ── Main content ── */
         main {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            position: relative;
-        }
-
-        /* Ambient glow behind the widget */
-        .glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--gold-subtle) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
         }
 
         h1 {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.03em;
-            line-height: 1.15;
-            color: var(--text-primary);
+            margin-bottom: 0.75rem;
         }
 
         .subtitle {
             font-size: 0.95rem;
             color: var(--text-secondary);
             line-height: 1.6;
-            max-width: 440px;
+            max-width: 420px;
         }
 
-        /* ── Widget container ── */
-        .widget-area {
-            margin-top: 1rem;
-            width: 380px;
-            max-width: 90vw;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ── Status indicator ── */
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .status-text {
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            letter-spacing: 0.02em;
-        }
-
-        /* ── Footer ── */
         footer {
             display: flex;
             align-items: center;
@@ -187,7 +106,6 @@
         footer span {
             font-size: 0.72rem;
             color: var(--text-tertiary);
-            letter-spacing: 0.02em;
         }
 
         footer .sep {
@@ -198,19 +116,10 @@
             opacity: 0.5;
         }
 
-        /* ── Mobile ── */
         @media (max-width: 640px) {
             header { padding: 1rem 1.25rem; }
             h1 { font-size: 1.5rem; }
             .subtitle { font-size: 0.85rem; }
-            .widget-area { width: 320px; }
-            .glow { width: 350px; height: 350px; }
-        }
-
-        /* ── Overrides for ElevenLabs widget in page flow ── */
-        elevenlabs-convai {
-            position: relative !important;
-            display: block;
         }
     </style>
 </head>
@@ -221,41 +130,28 @@
         <div class="brand-mark">ep</div>
         <div class="brand-name">EP Group <span>Engineering People</span></div>
     </div>
-    <div class="header-badge">AI Interview</div>
 </header>
 
 <main>
-    <div class="glow"></div>
-    <div class="content">
-        <h1>Speak with Alex</h1>
-        <p class="subtitle">
-            Our AI interviewer will guide you through a brief
-            pre-screening for engineering roles. Click below to begin.
-        </p>
-
-        <div class="widget-area">
-            <elevenlabs-convai
-                agent-id="agent_8701kncm94jgfzzv8k8x792qr7jj"
-                avatar-orb-color-1="#FFCC00"
-                avatar-orb-color-2="#D4A000"
-            ></elevenlabs-convai>
-        </div>
-
-        <div class="status">
-            <div class="status-dot"></div>
-            <span class="status-text">Agent online</span>
-        </div>
-    </div>
+    <h1>Speak with Alex</h1>
+    <p class="subtitle">
+        Our AI interviewer will guide you through a brief
+        pre-screening for engineering roles.
+    </p>
 </main>
 
 <footer>
     <span>Engineering People GmbH</span>
     <div class="sep"></div>
     <span>Stuttgart, Germany</span>
-    <div class="sep"></div>
-    <span>Powered by ElevenLabs</span>
 </footer>
 
+<!-- Widget renders in its own layer, no CSS overrides -->
+<elevenlabs-convai
+    agent-id="agent_8701kncm94jgfzzv8k8x792qr7jj"
+    avatar-orb-color-1="#FFCC00"
+    avatar-orb-color-2="#D4A000"
+></elevenlabs-convai>
 <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
 </body>
