@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EP Group Sprachagenten</title>
+    <title>EP Group Voice Agents</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,7 +97,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            padding: 1rem 2rem;
+            padding: 1.15rem 2.25rem;
             background: linear-gradient(180deg, var(--shell-bg) 0%, var(--shell-bg-soft) 100%);
             border-bottom: 1px solid var(--shell-border);
             box-shadow: var(--shadow-shell);
@@ -116,15 +116,22 @@
             display: flex;
             align-items: center;
             min-width: 0;
+            flex: 0 0 auto;
         }
 
         .brand-logo {
             display: block;
             width: auto;
-            height: 42px;
-            max-width: min(15rem, 100%);
+            height: 60px;
+            max-width: min(20rem, 100%);
             border-radius: 6px;
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
         }
 
         .shell-note {
@@ -132,6 +139,36 @@
             font-weight: 600;
             color: rgba(237, 245, 247, 0.72);
             white-space: nowrap;
+        }
+
+        .lang-switch {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.22rem;
+            border: 1px solid rgba(190, 217, 226, 0.14);
+            border-radius: 999px;
+            background: rgba(11, 31, 42, 0.72);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .lang-btn {
+            min-width: 2.7rem;
+            min-height: 2rem;
+            padding: 0.35rem 0.7rem;
+            border: 0;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--text-secondary);
+            font: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 204, 0, 0.14);
+            color: var(--text-primary);
         }
 
         main {
@@ -195,6 +232,7 @@
         }
 
         .agent-card {
+            position: relative;
             display: flex;
             flex-direction: column;
             min-height: 20rem;
@@ -205,18 +243,44 @@
                 linear-gradient(180deg, rgba(17, 41, 54, 0.92) 0%, rgba(11, 28, 38, 0.98) 100%);
             box-shadow: var(--shadow-soft);
             transition:
-                transform var(--transition-fast),
-                border-color var(--transition-fast),
-                box-shadow var(--transition-fast);
+                transform 180ms ease,
+                border-color 180ms ease,
+                box-shadow 180ms ease,
+                background-color 180ms ease,
+                filter 180ms ease;
+            transform-origin: center center;
+            overflow: hidden;
         }
 
-        .agent-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-strong);
-            box-shadow: 0 24px 50px rgba(0, 6, 10, 0.4);
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 85% 16%, rgba(255, 204, 0, 0.14), transparent 9rem),
+                radial-gradient(circle at 16% 18%, rgba(45, 142, 163, 0.16), transparent 10rem);
+            opacity: 0;
+            transition: opacity 180ms ease;
+        }
+
+        .agent-card:hover,
+        .agent-card:focus-within {
+            transform: translateY(-6px) scale(1.018);
+            border-color: rgba(255, 204, 0, 0.28);
+            box-shadow:
+                0 28px 58px rgba(0, 6, 10, 0.44),
+                0 0 0 1px rgba(45, 142, 163, 0.26);
+            filter: saturate(1.06);
+        }
+
+        .agent-card:hover::before,
+        .agent-card:focus-within::before {
+            opacity: 1;
         }
 
         .agent-card-top {
+            position: relative;
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
@@ -255,6 +319,7 @@
         }
 
         .agent-body {
+            position: relative;
             display: grid;
             gap: 1rem;
             flex: 1;
@@ -273,7 +338,6 @@
         .meta-item {
             display: grid;
             gap: 0.2rem;
-            min-width: 0;
         }
 
         .meta-label {
@@ -291,6 +355,7 @@
         }
 
         .agent-actions {
+            position: relative;
             margin-top: 1.35rem;
         }
 
@@ -320,11 +385,12 @@
 
         .cta:hover {
             transform: translateY(-1px);
-            border-color: rgba(190, 217, 226, 0.28);
+            border-color: rgba(255, 204, 0, 0.28);
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
                 inset 0 -1px 0 rgba(0, 0, 0, 0.22),
-                0 14px 28px rgba(0, 0, 0, 0.3);
+                0 14px 28px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(45, 142, 163, 0.18);
             filter: brightness(1.03);
         }
 
@@ -377,12 +443,17 @@
 
         @media (max-width: 640px) {
             header {
-                padding: 0.95rem 1rem;
+                padding: 1rem 1rem;
                 flex-wrap: wrap;
             }
 
             .brand-logo {
-                height: 38px;
+                height: 48px;
+            }
+
+            .header-controls {
+                width: 100%;
+                justify-content: space-between;
             }
 
             .shell-note {
@@ -427,80 +498,81 @@
     <div class="brand">
         <img src="logo-navy.svg" alt="EP Group" class="brand-logo">
     </div>
-    <div class="shell-note">Interner Agenten-Start</div>
+    <div class="header-controls">
+        <div class="shell-note" data-i18n="shellNote">Internal Agent Launcher</div>
+        <div class="lang-switch" aria-label="Language switch">
+            <button class="lang-btn" type="button" data-lang-option="en">EN</button>
+            <button class="lang-btn" type="button" data-lang-option="de">DE</button>
+        </div>
+    </div>
 </header>
 
 <main>
     <section class="hero">
         <div class="eyebrow">
             <span class="eyebrow-dot"></span>
-            <span>EP Voice AI</span>
+            <span data-i18n="eyebrow">EP Voice AI</span>
         </div>
-        <h1>Waehlen Sie den passenden Agenten fuer den heutigen Ablauf.</h1>
-        <p class="subtitle">
-            Starten Sie den passenden EP-Sprachworkflow fuer Kandidaten-Screening oder Bewerbungs-Nachverfolgung.
-            Das Screening bleibt kandidatenseitig ausgerichtet. Die Nachverfolgung ist fuer interne Recruiter gedacht,
-            die fehlende Angaben und Dokumentenanfragen vor dem Anruf vorbereiten.
+        <h1 data-i18n="headline">Choose the right agent for today&rsquo;s workflow.</h1>
+        <p class="subtitle" data-i18n="subtitle">
+            Start the right EP voice workflow for candidate screening or application follow-up. The screening flow stays candidate-oriented. The follow-up flow is designed for internal recruiters who need to prepare missing information and document requests before the call.
         </p>
     </section>
 
-    <section class="agent-grid" aria-label="Verfuegbare Sprachagenten">
+    <section class="agent-grid" aria-label="Available voice agents">
         <article class="agent-card">
             <div class="agent-card-top">
                 <div>
-                    <div class="agent-kicker">Sprachinterview-Agent</div>
-                    <h2>EP Kandidaten-Screening</h2>
+                    <div class="agent-kicker" data-i18n="screeningKicker">Voice Interview Agent</div>
+                    <h2 data-i18n="screeningTitle">EP Candidate Screening</h2>
                 </div>
-                <div class="agent-badge">Aktiv</div>
+                <div class="agent-badge" data-i18n="badgeActive">Active</div>
             </div>
             <div class="agent-body">
-                <p>
-                    Kandidatenorientierter Screening-Flow fuer Bewerber im Engineering-Bereich. Diese Erfahrung bleibt
-                    nah am bisherigen Startablauf und benoetigt nur minimale Vorbereitung vor dem Gespraech.
+                <p data-i18n="screeningBody">
+                    Candidate-facing screening flow for engineering applicants. This experience stays close to the current launch flow and only needs minimal setup before the call begins.
                 </p>
                 <div class="meta-list">
                     <div class="meta-item">
-                        <div class="meta-label">Zielgruppe</div>
-                        <div class="meta-value">Kandidatenorientiertes Vorgespraech</div>
+                        <div class="meta-label" data-i18n="audienceLabel">Audience</div>
+                        <div class="meta-value" data-i18n="screeningAudience">Candidate-facing pre-screening</div>
                     </div>
                     <div class="meta-item">
-                        <div class="meta-label">Setup</div>
-                        <div class="meta-value">Kandidatenname, EP-Kontext, Start ueber Sprach-Orb</div>
+                        <div class="meta-label" data-i18n="setupLabel">Setup</div>
+                        <div class="meta-value" data-i18n="screeningSetup">Candidate name, EP context, launch via voice orb</div>
                     </div>
                 </div>
             </div>
             <div class="agent-actions">
-                <a class="cta" href="screening.html">Screening-Agent oeffnen</a>
+                <a class="cta" href="screening.html" data-i18n="screeningCta">Open Screening Agent</a>
             </div>
         </article>
 
         <article class="agent-card">
             <div class="agent-card-top">
                 <div>
-                    <div class="agent-kicker">Recruiter-Workflow-Agent</div>
-                    <h2>EP Bewerbungs-Nachverfolgung</h2>
+                    <div class="agent-kicker" data-i18n="followupKicker">Recruiter Workflow Agent</div>
+                    <h2 data-i18n="followupTitle">EP Application Follow-Up</h2>
                 </div>
-                <div class="agent-badge">Aktiv</div>
+                <div class="agent-badge" data-i18n="badgeActive">Active</div>
             </div>
             <div class="agent-body">
-                <p>
-                    Internes Recruiter-Tool fuer fehlende Bewerbungsangaben und Dokumenten-Nachverfolgung. Starten Sie
-                    den Agenten mit vollem Gespraechskontext, damit Lisa die Identitaet bestaetigen, fehlende Angaben
-                    aufnehmen und Unterlagen sauber anfordern kann.
+                <p data-i18n="followupBody">
+                    Internal recruiter tool for missing application details and document follow-up. Launch the agent with full call context so Lisa can confirm identity, collect missing information, and request documents cleanly.
                 </p>
                 <div class="meta-list">
                     <div class="meta-item">
-                        <div class="meta-label">Zielgruppe</div>
-                        <div class="meta-value">Interner Recruiter oder Operator</div>
+                        <div class="meta-label" data-i18n="audienceLabel">Audience</div>
+                        <div class="meta-value" data-i18n="followupAudience">Internal recruiter or operator</div>
                     </div>
                     <div class="meta-item">
-                        <div class="meta-label">Setup</div>
-                        <div class="meta-value">Alle 6 Startfelder editierbar, inklusive kommagetrennter fehlender Punkte</div>
+                        <div class="meta-label" data-i18n="setupLabel">Setup</div>
+                        <div class="meta-value" data-i18n="followupSetup">All 6 launch fields editable, including comma-separated missing items</div>
                     </div>
                 </div>
             </div>
             <div class="agent-actions">
-                <a class="cta" href="follow-up.html">Nachverfolgungs-Agent oeffnen</a>
+                <a class="cta" href="follow-up.html" data-i18n="followupCta">Open Follow-Up Agent</a>
             </div>
         </article>
     </section>
@@ -509,7 +581,89 @@
 <footer>
     <span>Engineering People GmbH</span>
     <div class="sep"></div>
-    <span>Stuttgart, Germany</span>
+    <span data-i18n="footerLocation">Stuttgart, Germany</span>
 </footer>
+
+<script>
+    (function() {
+        var STORAGE_KEY = 'epVoiceAiLang';
+        var DEFAULT_LANG = 'en';
+        var translations = {
+            en: {
+                pageTitle: 'EP Group Voice Agents',
+                shellNote: 'Internal Agent Launcher',
+                eyebrow: 'EP Voice AI',
+                headline: 'Choose the right agent for today\'s workflow.',
+                subtitle: 'Start the right EP voice workflow for candidate screening or application follow-up. The screening flow stays candidate-oriented. The follow-up flow is designed for internal recruiters who need to prepare missing information and document requests before the call.',
+                screeningKicker: 'Voice Interview Agent',
+                screeningTitle: 'EP Candidate Screening',
+                badgeActive: 'Active',
+                screeningBody: 'Candidate-facing screening flow for engineering applicants. This experience stays close to the current launch flow and only needs minimal setup before the call begins.',
+                audienceLabel: 'Audience',
+                screeningAudience: 'Candidate-facing pre-screening',
+                setupLabel: 'Setup',
+                screeningSetup: 'Candidate name, EP context, launch via voice orb',
+                screeningCta: 'Open Screening Agent',
+                followupKicker: 'Recruiter Workflow Agent',
+                followupTitle: 'EP Application Follow-Up',
+                followupBody: 'Internal recruiter tool for missing application details and document follow-up. Launch the agent with full call context so Lisa can confirm identity, collect missing information, and request documents cleanly.',
+                followupAudience: 'Internal recruiter or operator',
+                followupSetup: 'All 6 launch fields editable, including comma-separated missing items',
+                followupCta: 'Open Follow-Up Agent',
+                footerLocation: 'Stuttgart, Germany'
+            },
+            de: {
+                pageTitle: 'EP Group Sprachagenten',
+                shellNote: 'Interner Agenten-Start',
+                eyebrow: 'EP Voice AI',
+                headline: 'Wählen Sie den passenden Agenten für den heutigen Ablauf.',
+                subtitle: 'Starten Sie den passenden EP-Sprachworkflow für Kandidaten-Screening oder Bewerbungs-Nachverfolgung. Das Screening bleibt kandidatenseitig ausgerichtet. Die Nachverfolgung ist für interne Recruiter gedacht, die fehlende Angaben und Dokumentenanfragen vor dem Anruf vorbereiten.',
+                screeningKicker: 'Sprachinterview-Agent',
+                screeningTitle: 'EP Kandidaten-Screening',
+                badgeActive: 'Aktiv',
+                screeningBody: 'Kandidatenorientierter Screening-Flow für Bewerber im Engineering-Bereich. Diese Erfahrung bleibt nah am bisherigen Startablauf und benötigt nur minimale Vorbereitung vor dem Gespräch.',
+                audienceLabel: 'Zielgruppe',
+                screeningAudience: 'Kandidatenorientiertes Vorgespräch',
+                setupLabel: 'Setup',
+                screeningSetup: 'Kandidatenname, EP-Kontext, Start über Sprach-Orb',
+                screeningCta: 'Screening-Agent öffnen',
+                followupKicker: 'Recruiter-Workflow-Agent',
+                followupTitle: 'EP Bewerbungs-Nachverfolgung',
+                followupBody: 'Internes Recruiter-Tool für fehlende Bewerbungsangaben und Dokumenten-Nachverfolgung. Starten Sie den Agenten mit vollem Gesprächskontext, damit Lisa die Identität bestätigen, fehlende Angaben aufnehmen und Unterlagen sauber anfordern kann.',
+                followupAudience: 'Interner Recruiter oder Operator',
+                followupSetup: 'Alle 6 Startfelder editierbar, inklusive kommagetrennter fehlender Punkte',
+                followupCta: 'Nachverfolgungs-Agent öffnen',
+                footerLocation: 'Stuttgart, Deutschland'
+            }
+        };
+
+        var currentLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
+
+        function applyTranslations(lang) {
+            var copy = translations[lang] || translations.en;
+            document.documentElement.lang = lang;
+            document.title = copy.pageTitle;
+            document.querySelectorAll('[data-i18n]').forEach(function(node) {
+                var key = node.getAttribute('data-i18n');
+                if (copy[key]) {
+                    node.textContent = copy[key];
+                }
+            });
+            document.querySelectorAll('[data-lang-option]').forEach(function(button) {
+                button.classList.toggle('active', button.getAttribute('data-lang-option') === lang);
+            });
+        }
+
+        document.querySelectorAll('[data-lang-option]').forEach(function(button) {
+            button.addEventListener('click', function() {
+                currentLang = button.getAttribute('data-lang-option');
+                localStorage.setItem(STORAGE_KEY, currentLang);
+                applyTranslations(currentLang);
+            });
+        });
+
+        applyTranslations(currentLang);
+    })();
+</script>
 </body>
 </html>
