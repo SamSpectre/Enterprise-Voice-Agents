@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EP Candidate Screening</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="agent-id-screening" content="">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -136,18 +137,27 @@
         document.querySelectorAll('[data-lang-option]').forEach(function(button){ button.addEventListener('click', function(){ currentLang = button.getAttribute('data-lang-option'); localStorage.setItem(STORAGE_KEY, currentLang); applyTranslations(currentLang); }); });
         applyTranslations(currentLang);
     })();
+    var AGENT_CONFIG = {
+        screening_de: document.querySelector('meta[name="agent-id-screening"]')?.content || ''
+    };
+
     document.getElementById('name-form').addEventListener('submit', function(e) {
         e.preventDefault();
         var name = document.getElementById('candidate-name').value.trim();
         if (!name) return;
+        var agentId = AGENT_CONFIG.screening_de;
+        if (!agentId) { console.error('Agent ID not configured'); return; }
         this.style.display = 'none';
         document.getElementById('active-hint').classList.add('visible');
         var widget = document.createElement('elevenlabs-convai');
-        widget.setAttribute('agent-id', 'agent_8701kncm94jgfzzv8k8x792qr7jj');
+        widget.setAttribute('agent-id', agentId);
         widget.setAttribute('dynamic-variables', JSON.stringify({ candidate_name: name, company_name: 'EP Group' }));
         document.body.appendChild(widget);
     });
 </script>
+<!-- Pin to a specific version in production; compute SRI hash with:
+     openssl dgst -sha384 -binary <script.js> | openssl base64 -A
+     Then add: integrity="sha384-HASH" crossorigin="anonymous" -->
 <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
